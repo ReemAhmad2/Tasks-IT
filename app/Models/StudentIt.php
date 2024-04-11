@@ -9,4 +9,15 @@ class StudentIt extends Model
 {
     use HasFactory;
     protected $table = 'students_it';
+    protected $fillable = [
+        'uuid',
+        'number',
+        'email',
+    ];
+
+    protected $casts = [
+        'uuid'=>'string',
+        'number'=>'integer',
+        'email'=>'string',
+    ];
 }
