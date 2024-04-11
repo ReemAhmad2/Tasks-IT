@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->foreignId('teacher_id')->constrained('teachers')->restrictOnDelete();
             $table->text('description');
             $table->date('deadline');

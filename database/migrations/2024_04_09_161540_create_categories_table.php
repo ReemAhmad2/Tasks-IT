@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->unsignedSmallInteger('year');
             $table->unsignedSmallInteger('number');
             $table->timestamps();
