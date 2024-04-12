@@ -8,8 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
     protected $fillable = [
+        'uuid',
+        'number_of_student',
+        'user_id',
+        'category_id',
+    ];
+
+    protected $casts = [
         'uuid'=>'string',
         'number_of_student'=>'integer',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function submission()
+    {
+        return $this->hasOne(TaskSubmission::class);
+    }
 }

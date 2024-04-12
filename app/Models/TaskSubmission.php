@@ -5,27 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class TaskSubmission extends Model
 {
     use HasFactory;
     protected $fillable = [
         'uuid',
         'task_id',
-        'user_id',
-        'comment_text',
+        'student_id',
+        'file',
     ];
 
     protected $casts = [
         'uuid'=>'string',
-        'comment_text'=>'string',
+        'file'=>'string',
     ];
 
     public function task()
     {
         return $this->belongsTo(Task::class);
     }
-    public function user()
+
+    public function student()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Student::class);
     }
 }

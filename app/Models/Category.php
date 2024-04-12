@@ -15,4 +15,9 @@ class Category extends Model
         'year'=>'integer',
         'number'=>'integer',
     ];
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
 }

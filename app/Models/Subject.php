@@ -9,10 +9,16 @@ class Subject extends Model
 {
     use HasFactory;
     protected $fillable = ['uuid','name','year','term'];
+
     protected $casts = [
         'uuid'=>'string',
         'name'=>'string',
         'year'=>'integer',
         'term'=>'integer',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
