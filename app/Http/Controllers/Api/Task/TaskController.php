@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Category;
@@ -68,6 +69,13 @@ class TaskController extends Controller
             }
     }
 
+    public function show(Request $request)
+    {
+        $task = Task::where('uuid',$request->uuid)->first();
+        $data = TaskResource::make($task);
+        return $this->apiResponse($data);
+    }
+
     public function deleteTask($uuid)
     {
         try{
@@ -75,15 +83,13 @@ class TaskController extends Controller
         }catch(\Exception $e){
             return $this->apiResponse(null,false,"Not found ",422);
         }
-
         $user = Auth::user();
-
         if($user->type == 'admin')
         {
             $task->delete();
             return $this->apiResponse("Task Successfully Deleted");
         }
-        
+
         $teacher = $user->teacher->tasks;
         foreach ($teacher as $task_teacher)
         {

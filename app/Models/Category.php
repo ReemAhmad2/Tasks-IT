@@ -20,4 +20,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Task::class);
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

@@ -30,4 +30,9 @@ class Student extends Model
     {
         return $this->hasOne(TaskSubmission::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

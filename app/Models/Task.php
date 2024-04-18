@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'uuid',
-        'teacher_id',
-        'description',
-        'deadline',
-        'subject_id',
-        'max_student_count',
-    ];
+    protected $fillable = ['uuid','teacher_id','description',
+                'deadline','subject_id','max_student_count',];
 
     protected $casts = [
         'uuid'=>'string',
@@ -23,6 +18,14 @@ class Task extends Model
         'deadline'=>'date',
         'max_student_count'=>'int',
     ];
+
+    public function getDurationAttribute()
+    {
+        $createdAt = Carbon::parse($this->created_at);
+        $now = Carbon::now();
+        $duration = $createdAt->diffForHumans($now);
+        return $duration;
+    }
 
     public function teacher()
     {
