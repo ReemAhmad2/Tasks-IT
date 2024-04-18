@@ -77,6 +77,13 @@ class TaskController extends Controller
         }
 
         $user = Auth::user();
+
+        if($user->type == 'admin')
+        {
+            $task->delete();
+            return $this->apiResponse("Task Successfully Deleted");
+        }
+        
         $teacher = $user->teacher->tasks;
         foreach ($teacher as $task_teacher)
         {
