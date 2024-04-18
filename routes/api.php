@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\StudentController;
 use App\Http\Controllers\Api\Auth\TeacherController;
 use App\Http\Controllers\Api\Auth\UserController;
+use App\Http\Controllers\Api\Task\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,6 @@ Route::post('/login',[UserController::class,'login'])->middleware('guest:sanctum
 Route::post('/register/student',[StudentController::class,'register'])->middleware('guest:sanctum');
 Route::post('/register/teacher',[TeacherController::class,'register'])->middleware(['auth:sanctum','type:admin']);
 Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctum');
+
+Route::post('/add/task',[TaskController::class,'store'])->middleware(['auth:sanctum','type:teacher']);
+Route::post('delete/task/{uuid}',[TaskController::class,'deleteTask'])->middleware(['auth:sanctum','type:teacher,admin']);

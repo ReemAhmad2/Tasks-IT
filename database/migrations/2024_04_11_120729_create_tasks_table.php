@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('deadline');
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
-            $table->enum('group',['single','multiple']);
+            $table->integer('max_student_count')->default(1);
             $table->timestamps();
         });
     }

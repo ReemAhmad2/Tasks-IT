@@ -14,14 +14,14 @@ class Task extends Model
         'description',
         'deadline',
         'subject_id',
-        'group',
+        'max_student_count',
     ];
 
     protected $casts = [
         'uuid'=>'string',
         'description'=>'string',
         'deadline'=>'date',
-        'group'=>'string',
+        'max_student_count'=>'int',
     ];
 
     public function teacher()
