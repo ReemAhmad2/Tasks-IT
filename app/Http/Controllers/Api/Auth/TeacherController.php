@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\GeneralTrait;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -29,16 +30,19 @@ class TeacherController extends Controller
         }
         try {
             $user = new User;
-            $user->uuid = Str::uuid();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->type = 'teacher';
-            $user->save();
-            $uuid = Str::uuid();
-            $user->teacher()->create([
-                'uuid'=>$uuid,
-            ]);
+            DB::transaction(function () use ($request,$user){
+                $user->uuid = Str::uuid();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->type = 'teacher';
+                $user->save();
+                $uuid = Str::uuid();
+                $user->teacher()->create([
+                    'uuid'=>$uuid,
+                ]);
+            });
+
             return $this->apiResponse('Create Teacher Access', true, null, 201);
         } catch (\Exception $e) {
             return $this->apiResponse(null, false, $e, 500);

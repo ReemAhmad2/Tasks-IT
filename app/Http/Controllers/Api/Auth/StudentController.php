@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Category;
 use App\Models\StudentIt;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -50,26 +51,27 @@ class StudentController extends Controller
         {
             return $this->apiResponse(null,false,'Not IT student!! Please Enter Email and Number True',500);
         }
-
         $user = new User;
-        $user->uuid = Str::uuid();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->type='student';
-        $user->save();
+        DB::transaction(function () use ($request, $st_category ,$uuid,$user)
+            {
+                $user->uuid = Str::uuid();
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->type='student';
+                $user->save();
 
-        $user->student()->create([
-            'number_of_student'=>$request->number,
-            'category_id'=>$st_category->id,
-            'uuid'=>$uuid,
-        ]);
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer'],true,null,201);
+                $user->student()->create([
+                    'number_of_student'=>$request->number,
+                    'category_id'=>$st_category->id,
+                    'uuid'=>$uuid,
+                ]);
+            });
+                $token = $user->createToken('auth_token')->plainTextToken;
+                return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer'],true,null,201);
 
         }catch(\Exception $e){
-            return $this->apiResponse(null,false,$e,500);
+            return $this->apiResponse(null,false,$e->getMessage(),500);
         }
     }
 }
