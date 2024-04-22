@@ -17,6 +17,11 @@ class TaskController extends Controller
 {
     use GeneralTrait;
 
+    public function index ()
+    {
+        $tasks = TaskResource::collection(Task::all());
+        return $this->apiResponse($tasks);
+    }
 
     public function store(Request $request)
     {

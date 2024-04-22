@@ -47,7 +47,11 @@ class CommentController extends Controller
     public function delete(Request $request)
     {
         $user = $request->user();
-        $comment = Comment::where('uuid',$request->uuid)->first;
+        $comment = Comment::where('uuid',$request->uuid)->first();
+        if($comment == null)
+        {
+            return $this->apiResponse(null,false,'Comment Not Found',403);
+        }
         if($user->type =='teacher')
         {
             if($comment->task->teacher_id == $user->teacher->id)
