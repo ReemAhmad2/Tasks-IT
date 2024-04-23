@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\StudentController;
 use App\Http\Controllers\Api\Auth\TeacherController;
 use App\Http\Controllers\Api\Auth\UserController;
 use App\Http\Controllers\Api\Task\CommentController;
+use App\Http\Controllers\Api\Task\SubmissionController;
 use App\Http\Controllers\Api\Task\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,3 +40,6 @@ Route::post('add/comment',[CommentController::class,'store'])
         ->middleware(['auth:sanctum','type:teacher,student','access_task']);
 Route::post('delete/comment',[CommentController::class,'delete'])
         ->middleware(['auth:sanctum','type:teacher,student']);
+
+Route::post('file/task/upload',[SubmissionController::class,'upload'])
+        ->middleware(['auth:sanctum','type:student','access_submit']);

@@ -26,9 +26,9 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function submission()
+    public function submissions()
     {
-        return $this->hasOne(TaskSubmission::class);
+        return $this->hasMany(TaskSubmission::class);
     }
 
     public function category()

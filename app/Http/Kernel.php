@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'type' => \App\Http\Middleware\TypeUser::class,
         'access_task' => \App\Http\Middleware\AccessToTask::class,
+        'access_submit' => \App\Http\Middleware\AccessToSubmission::class,
     ];
 }
