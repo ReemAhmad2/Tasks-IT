@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -25,6 +26,19 @@ class Task extends Model
         $now = Carbon::now();
         $duration = $createdAt->diffForHumans($now);
         return $duration;
+    }
+    public function getStatusAttribute()
+    {
+        $user = Auth::user();
+        $submissions = $user->student->submissions;
+        foreach($submissions as $submission)
+        {
+            if($submission->task_id == $this->id)
+            {
+                return 'Submitted';
+            }
+        }
+        return 'Not Submitted';
     }
 
     public function teacher()

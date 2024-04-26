@@ -43,3 +43,7 @@ Route::post('delete/comment',[CommentController::class,'delete'])
 
 Route::post('file/task/upload',[SubmissionController::class,'upload'])
         ->middleware(['auth:sanctum','type:student','access_submit']);
+Route::post('all/files/task',[SubmissionController::class,'submissionsForTask'])
+        ->middleware(['auth:sanctum','type:teacher','access_task']);
+Route::post('all/task/student',[TaskController::class,'allTasksForStudent'])
+        ->middleware(['auth:sanctum','type:student']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskStatusResource;
 use Illuminate\Http\Request;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Category;
@@ -106,5 +107,12 @@ class TaskController extends Controller
         }
         return $this->apiResponse(null,false,'you cant deleted this task',422);
 
+    }
+
+    public function allTasksForStudent()
+    {
+        $user = Auth::user();
+        $tasks = $user->student->category->tasks;
+        return $this->apiResponse(TaskStatusResource::collection($tasks));
     }
 }
