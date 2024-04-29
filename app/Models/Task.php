@@ -12,13 +12,13 @@ class Task extends Model
 {
     use HasFactory;
     protected $fillable = ['uuid','teacher_id','description',
-                'deadline','subject_id','max_student_count',];
+                'deadline','subject_id','max_student_count'];
 
     protected $casts = [
         'uuid'=>'string',
         'description'=>'string',
         'deadline'=>'date',
-        'max_student_count'=>'int',
+        'max_student_count'=>'int'
     ];
 
     public function getDurationAttribute()

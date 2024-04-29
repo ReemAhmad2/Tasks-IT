@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['uuid', 'year', 'number',];
+    protected $fillable = ['uuid', 'year', 'number'];
 
     protected $casts = [
         'uuid'=>'string',
         'year'=>'integer',
-        'number'=>'integer',
+        'number'=>'integer'
     ];
 
     public function tasks()

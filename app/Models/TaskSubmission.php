@@ -12,12 +12,12 @@ class TaskSubmission extends Model
         'uuid',
         'task_id',
         'student_id',
-        'file',
+        'file'
     ];
 
     protected $casts = [
         'uuid'=>'string',
-        'file'=>'string',
+        'file'=>'string'
     ];
 
     public function task()

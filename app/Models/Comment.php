@@ -12,12 +12,12 @@ class Comment extends Model
         'uuid',
         'task_id',
         'user_id',
-        'comment_text',
+        'comment_text'
     ];
 
     protected $casts = [
         'uuid'=>'string',
-        'comment_text'=>'string',
+        'comment_text'=>'string'
     ];
 
     public function task()

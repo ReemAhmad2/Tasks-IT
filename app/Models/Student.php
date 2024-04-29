@@ -13,12 +13,12 @@ class Student extends Model
         'uuid',
         'number_of_student',
         'user_id',
-        'category_id',
+        'category_id'
     ];
 
     protected $casts = [
         'uuid'=>'string',
-        'number_of_student'=>'integer',
+        'number_of_student'=>'integer'
     ];
 
     public function user()

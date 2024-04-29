@@ -14,7 +14,7 @@ class Subject extends Model
         'uuid'=>'string',
         'name'=>'string',
         'year'=>'integer',
-        'term'=>'integer',
+        'term'=>'integer'
     ];
 
     public function tasks()

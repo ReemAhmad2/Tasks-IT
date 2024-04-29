@@ -12,12 +12,12 @@ class StudentIt extends Model
     protected $fillable = [
         'uuid',
         'number',
-        'email',
+        'email'
     ];
 
     protected $casts = [
         'uuid'=>'string',
         'number'=>'integer',
-        'email'=>'string',
+        'email'=>'string'
     ];
 }
