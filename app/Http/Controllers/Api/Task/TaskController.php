@@ -13,6 +13,7 @@ use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Teacher;
 
 class TaskController extends Controller
 {
@@ -114,5 +115,25 @@ class TaskController extends Controller
         $user = Auth::user();
         $tasks = $user->student->category->tasks;
         return $this->apiResponse(TaskStatusResource::collection($tasks));
+    }
+
+    public function searchTask(Request $request)
+    {
+        $validate = Validator::make($request->all(),[
+            'subject_uuid' => ['nullable','string','exists:subjects,uuid'],
+            'teacher_name' => ['nullable','string'],
+        ]);
+
+        if ($validate->fails()) {
+            return $this->apiResponse(null,false,$validate->errors(),422);
+        }
+        $name = $request->teacher_name;
+        $tasks =TaskResource::collection(Task::join('teachers', 'tasks.teacher_id', '=', 'teachers.id')
+        ->join('users', 'teachers.user_id', '=', 'users.id')
+        ->where('users.name', 'like', '%'.$name.'%')
+        ->select('tasks.*')
+        ->get()) ;
+
+        return $this->apiResponse($tasks);
     }
 }

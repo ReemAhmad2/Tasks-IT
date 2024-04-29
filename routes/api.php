@@ -44,16 +44,24 @@ Route::get('all/tasks',[TaskController::class,'index'])
 
 Route::post('add/comment',[CommentController::class,'store'])
         ->middleware(['auth:sanctum','type:teacher,student','access_task']);
+
 Route::post('delete/comment',[CommentController::class,'delete'])
         ->middleware(['auth:sanctum','type:teacher,student']);
 
 Route::post('file/task/upload',[SubmissionController::class,'upload'])
         ->middleware(['auth:sanctum','type:student','access_submit']);
+
+Route::post('add/partners',[SubmissionController::class,'addPartners'])
+        ->middleware(['auth:sanctum','type:student']);
+
 Route::post('all/files/task',[SubmissionController::class,'submissionsForTask'])
         ->middleware(['auth:sanctum','type:teacher','access_task']);
+
 Route::post('all/task/student',[TaskController::class,'allTasksForStudent'])
         ->middleware(['auth:sanctum','type:student']);
 
-
 Route::post('students-it-import',[StudentStudentController::class,'addStudentsIT'])
+        ->middleware(['auth:sanctum','type:admin']);
+
+Route::post('search/tasks',[TaskController::class,'searchTask'])
         ->middleware(['auth:sanctum','type:admin']);
