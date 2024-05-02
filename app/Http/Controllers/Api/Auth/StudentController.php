@@ -91,16 +91,26 @@ class StudentController extends Controller
         return $this->apiResponse(StudentResource::collection($users));
     }
 
-    public function studentsByYear()
+    public function studentsByYear(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'year'=>['required','integer','min:1','max:5'],
+        ]);
+
+
+        if($validator->fails()){
+            return $this->apiResponse(null,false,$validator->errors(),422);
+        }
+
 
         $students = Student::whereHas('category', function ($query) {
             $query->where('year', request()->year);
         })->get();
 
+
         return $this->apiResponse(StudentsByYearResource::collection($students)); ;
     }
-    
+
 }
 
 

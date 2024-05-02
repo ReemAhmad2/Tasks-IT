@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TeacherResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -47,5 +48,11 @@ class TeacherController extends Controller
         } catch (\Exception $e) {
             return $this->apiResponse(null, false, $e, 500);
         }
+    }
+
+    public function allTeachers()
+    {
+        $users = User::where('type','teacher')->get();
+        return $this->apiResponse(TeacherResource::collection($users));
     }
 }

@@ -75,3 +75,6 @@ Route::get('all/students',[StudentController::class,'allStudents'])
         ->middleware(['auth:sanctum','type:admin']);
 Route::post('all/students-by-year',[StudentController::class,'studentsByYear'])
         ->middleware(['auth:sanctum','type:admin']);
+
+Route::get('all/teacher',[TeacherController::class,'allTeachers'])
+        ->middleware(['auth:sanctum','type:admin']);;
