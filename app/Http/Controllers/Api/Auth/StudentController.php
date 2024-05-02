@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StudentResource;
+use App\Http\Resources\StudentsByYearResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +12,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Category;
+use App\Models\Student;
 use App\Models\StudentIt;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
@@ -74,6 +78,29 @@ class StudentController extends Controller
             return $this->apiResponse(null,false,$e->getMessage(),500);
         }
     }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return $this->apiResponse(StudentResource::make($user));
+    }
+
+    public function allStudents()
+    {
+        $users = User::where('type','student')->get();
+        return $this->apiResponse(StudentResource::collection($users));
+    }
+
+    public function studentsByYear()
+    {
+
+        $students = Student::whereHas('category', function ($query) {
+            $query->where('year', request()->year);
+        })->get();
+
+        return $this->apiResponse(StudentsByYearResource::collection($students)); ;
+    }
+    
 }
 
 

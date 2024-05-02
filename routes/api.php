@@ -68,3 +68,10 @@ Route::post('students-it-import',[StudentStudentController::class,'addStudentsIT
 Route::post('search/tasks',[TaskController::class,'searchTask'])
         ->middleware(['auth:sanctum','type:admin']);
 
+
+Route::post('profile/student',[StudentController::class,'profile'])
+        ->middleware(['auth:sanctum','type:student']);
+Route::get('all/students',[StudentController::class,'allStudents'])
+        ->middleware(['auth:sanctum','type:admin']);
+Route::post('all/students-by-year',[StudentController::class,'studentsByYear'])
+        ->middleware(['auth:sanctum','type:admin']);
