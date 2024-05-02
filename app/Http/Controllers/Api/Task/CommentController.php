@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\GeneralTrait;
@@ -14,6 +15,28 @@ class CommentController extends Controller
 {
 
     use GeneralTrait;
+
+    public function index (Request $request)
+    {
+        try{
+
+        $validate = Validator::make($request->all(),[
+            'uuid' => ['required','string','exists:tasks,uuid'],
+        ]);
+
+        $task = Task::where('uuid',$request->uuid)->first();
+
+        $task_id = $task->id;
+        $comments = Comment::where('task_id',$task_id)->get();
+        $all_comments = CommentResource::collection($comments);
+
+        return $this->apiResponse($all_comments);
+
+
+        }catch (\Exception $e){
+            return $this->apiResponse(null,false,$e->getMessage(),500);
+        }
+    }
 
     public function store(Request $request)
     {
