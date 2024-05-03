@@ -21,4 +21,9 @@ class Subject extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function getCountTasksAttribute(){
+        $count = $this->tasks->count();
+        return $count;
+    }
 }

@@ -83,10 +83,10 @@ class TaskController extends Controller
         return $this->apiResponse($data);
     }
 
-    public function deleteTask($uuid)
+    public function deleteTask(Request $request)
     {
         try{
-            $task =Task::where('uuid', $uuid)->firstOrFail();
+            $task =Task::where('uuid', $request->uuid)->firstOrFail();
         }catch(\Exception $e){
             return $this->apiResponse(null,false,"Not found ",422);
         }

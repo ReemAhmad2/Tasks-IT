@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\StudentController;
 use App\Http\Controllers\Api\Auth\TeacherController;
 use App\Http\Controllers\Api\Auth\UserController;
 use App\Http\Controllers\Api\Student\StudentController as StudentStudentController;
+use App\Http\Controllers\Api\Subject\SubjectController;
 use App\Http\Controllers\Api\Task\CommentController;
 use App\Http\Controllers\Api\Task\SubmissionController;
 use App\Http\Controllers\Api\Task\TaskController;
@@ -37,7 +38,7 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 Route::post('/add/task',[TaskController::class,'store'])
         ->middleware(['auth:sanctum','type:teacher']);
-Route::post('delete/task/{uuid}',[TaskController::class,'deleteTask'])
+Route::post('delete/task',[TaskController::class,'deleteTask'])
         ->middleware(['auth:sanctum','type:teacher,admin']);
 Route::post('show/task',[TaskController::class,'show'])
         ->middleware(['auth:sanctum','access_task']);
@@ -76,5 +77,14 @@ Route::get('all/students',[StudentController::class,'allStudents'])
 Route::post('all/students-by-year',[StudentController::class,'studentsByYear'])
         ->middleware(['auth:sanctum','type:admin']);
 
+
 Route::get('all/teacher',[TeacherController::class,'allTeachers'])
-        ->middleware(['auth:sanctum','type:admin']);;
+        ->middleware(['auth:sanctum','type:admin']);
+
+
+Route::get('all/subjects',[SubjectController::class,'index'])
+        ->middleware(['auth:sanctum','type:admin']);
+Route::post('subject/task',[SubjectController::class,'allTaskBySubject'])
+        ->middleware(['auth:sanctum','type:admin,student']);
+Route::post('subjects/term',[SubjectController::class,'subjectsByTerm'])
+        ->middleware(['auth:sanctum','type:admin']);
