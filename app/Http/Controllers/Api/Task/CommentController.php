@@ -24,6 +24,10 @@ class CommentController extends Controller
             'uuid' => ['required','string','exists:tasks,uuid'],
         ]);
 
+        if ($validate->fails()) {
+            return $this->apiResponse(null,false,$validate->errors(),422);
+        }
+
         $task = Task::where('uuid',$request->uuid)->first();
 
         $task_id = $task->id;
@@ -63,7 +67,7 @@ class CommentController extends Controller
 
         }catch(\Exception $e)
         {
-            return $this->apiResponse(null,false,$e->getMessage(),422);
+            return $this->apiResponse(null,false,$e->getMessage(),500);
         }
     }
 

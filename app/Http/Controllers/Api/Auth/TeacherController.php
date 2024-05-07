@@ -46,7 +46,7 @@ class TeacherController extends Controller
 
             return $this->apiResponse('Create Teacher Access', true, null, 201);
         } catch (\Exception $e) {
-            return $this->apiResponse(null, false, $e, 500);
+            return $this->apiResponse(null,false,$e->getMessage(),500);
         }
     }
 

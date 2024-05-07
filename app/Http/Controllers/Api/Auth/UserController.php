@@ -41,7 +41,7 @@ class UserController extends Controller
             }
 
         }catch (\Exception $e) {
-            return $this->apiResponse(null,false,$e,500);
+            return $this->apiResponse(null,false,$e->getMessage(),500);
         }
     }
 
