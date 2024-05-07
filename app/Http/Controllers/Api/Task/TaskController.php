@@ -27,14 +27,7 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $validate = Validator::make($request->all(),[
-            'description' => 'required|string',
-            'max_student_count' => 'integer|min:1',
-            'deadline' => 'required|date|after:today',
-            'subject' => 'required|string|exists:subjects,uuid',
-            'category' => 'required|array',
-            'category.*' => 'required|string|exists:categories,uuid',
-        ]);
+        $validate = Validator::make($request->all(),Task::roles());
 
         if ($validate->fails()) {
             return $this->apiResponse(null,false,$validate->errors(),422);
@@ -136,4 +129,51 @@ class TaskController extends Controller
 
         return $this->apiResponse($tasks);
     }
+
+    public function update(Request $request)
+    {
+        $validate = Validator::make($request->all(),Task::roles());
+
+        if ($validate->fails()) {
+            return $this->apiResponse(null,false,$validate->errors(),422);
+        }
+
+        try{
+
+            $task = Task::where('uuid',$request->uuid_task)->first();
+            
+            if($task == null){
+                return $this->apiResponse(null,false,'Enter Task True Please',422);
+            }
+
+            $subject = Subject::where('uuid',$request->subject)->first();
+            $year = $subject->year;
+            $Y_category = Category::where('year',$year)->pluck('uuid')->toArray();
+            $ids = [];
+            foreach ($request->category as $category)
+            {
+                if( !in_array($category,$Y_category))
+                {
+                    return $this->apiResponse(null,false,'Enter Category True Please',422);
+                }
+                $id_category = Category::where('uuid',$category)->first()->id;
+                $ids[]=$id_category;
+            }
+
+            $task->description = $request->description;
+            $task->deadline = $request->deadline;
+            $task->max_student_count = $request->max_student_count ;
+
+            $task->save();
+
+            $task->categories()->sync($ids);
+
+            return $this->apiResponse("Successfully updated Task");
+
+        }catch(\Exception $e){
+                return $this->apiResponse(null,false,$e,500);
+        }
+
+    }
+
 }

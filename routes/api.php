@@ -38,6 +38,8 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 Route::post('/add/task',[TaskController::class,'store'])
         ->middleware(['auth:sanctum','type:teacher']);
+Route::post('/update/task',[TaskController::class,'update'])
+        ->middleware(['auth:sanctum','type:teacher','access_task']);
 Route::post('delete/task',[TaskController::class,'deleteTask'])
         ->middleware(['auth:sanctum','type:teacher,admin']);
 Route::post('show/task',[TaskController::class,'show'])

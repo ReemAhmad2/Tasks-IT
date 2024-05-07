@@ -21,6 +21,18 @@ class Task extends Model
         'max_student_count'=>'int'
     ];
 
+    public static function roles()
+    {
+        return  [
+        'description' => 'required|string',
+        'max_student_count' => 'integer|min:1',
+        'deadline' => 'required|date|after:today',
+        'subject' => 'required|string|exists:subjects,uuid',
+        'category' => 'required|array',
+        'category.*' => 'required|string|exists:categories,uuid',
+        ];
+    }
+    
     public function getDurationAttribute()
     {
         $createdAt = Carbon::parse($this->created_at);
@@ -66,4 +78,6 @@ class Task extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+
 }
