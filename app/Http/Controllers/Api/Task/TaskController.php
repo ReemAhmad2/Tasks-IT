@@ -65,7 +65,7 @@ class TaskController extends Controller
             return $this->apiResponse("Successfully Add Task");
 
             }catch(\Exception $e){
-                return $this->apiResponse(null,false,$e,500);
+                return $this->apiResponse(null,false,$e->getMessage(),500);
             }
     }
 
@@ -130,6 +130,24 @@ class TaskController extends Controller
         return $this->apiResponse($tasks);
     }
 
+    public function allTaskForTeacher(Request $request)
+    {
+        try {
+
+            $user = $request->user();
+
+            $teacher = $user->teacher;
+
+            $tasks = $teacher->tasks;
+
+            $collection_tasks = TaskResource::collection($tasks) ;
+
+            return $this->apiResponse($collection_tasks);
+        }catch(\Exception $e){
+            return $this->apiResponse(null,false,$e->getMessage(),500);
+        }
+    }
+
     public function update(Request $request)
     {
         $validate = Validator::make($request->all(),Task::roles());
@@ -140,8 +158,8 @@ class TaskController extends Controller
 
         try{
 
-            $task = Task::where('uuid',$request->uuid_task)->first();
-            
+            $task = Task::where('uuid',$request->uuid)->first();
+
             if($task == null){
                 return $this->apiResponse(null,false,'Enter Task True Please',422);
             }
@@ -171,7 +189,7 @@ class TaskController extends Controller
             return $this->apiResponse("Successfully updated Task");
 
         }catch(\Exception $e){
-                return $this->apiResponse(null,false,$e,500);
+                return $this->apiResponse(null,false,$e->getMessage(),500);
         }
 
     }

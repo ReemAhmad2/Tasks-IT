@@ -38,6 +38,8 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 Route::post('/add/task',[TaskController::class,'store'])
         ->middleware(['auth:sanctum','type:teacher']);
+Route::get('/teacher/task',[TaskController::class,'allTaskForTeacher'])
+        ->middleware(['auth:sanctum','type:teacher']);
 Route::post('/update/task',[TaskController::class,'update'])
         ->middleware(['auth:sanctum','type:teacher','access_task']);
 Route::post('delete/task',[TaskController::class,'deleteTask'])
@@ -48,6 +50,7 @@ Route::get('all/tasks',[TaskController::class,'index'])
         ->middleware(['auth:sanctum','type:admin']);
 Route::post('all/task/student',[TaskController::class,'allTasksForStudent'])
         ->middleware(['auth:sanctum','type:student']);
+
 
 
 Route::post('add/comment',[CommentController::class,'store'])
