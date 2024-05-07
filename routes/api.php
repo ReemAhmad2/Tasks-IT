@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\StudentController;
 use App\Http\Controllers\Api\Auth\TeacherController;
 use App\Http\Controllers\Api\Auth\UserController;
+use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\Student\StudentController as StudentStudentController;
 use App\Http\Controllers\Api\Subject\SubjectController;
 use App\Http\Controllers\Api\Task\CommentController;
@@ -93,3 +94,7 @@ Route::post('subject/task',[SubjectController::class,'allTaskBySubject'])
         ->middleware(['auth:sanctum','type:admin,student']);
 Route::post('subjects/term',[SubjectController::class,'subjectsByTerm'])
         ->middleware(['auth:sanctum','type:admin']);
+
+
+Route::post('categories/all',[CategoryController::class,'showByYear'])
+        ->middleware(['auth:sanctum']);
