@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -79,28 +80,36 @@ class TaskController extends Controller
     public function deleteTask(Request $request)
     {
         try{
+
             $task =Task::where('uuid', $request->uuid)->firstOrFail();
+            $files = $task->submissions()->pluck('file');
+
         }catch(\Exception $e){
             return $this->apiResponse(null,false,"Not found ",422);
         }
+
         $user = Auth::user();
+        
         if($user->type == 'admin')
         {
             $task->delete();
+            $this->deletedFiles($files);
             return $this->apiResponse("Task Successfully Deleted");
         }
 
         $teacher = $user->teacher->tasks;
+
         foreach ($teacher as $task_teacher)
         {
             if($task->uuid == $task_teacher->uuid){
                 $task->delete();
+                $this->deletedFiles($files);
                 return $this->apiResponse("Task Successfully Deleted");
 
             }
         }
-        return $this->apiResponse(null,false,'you cant deleted this task',422);
 
+        return $this->apiResponse(null,false,'you cant deleted this task',422);
     }
 
     public function allTasksForStudent()
@@ -192,6 +201,16 @@ class TaskController extends Controller
                 return $this->apiResponse(null,false,$e->getMessage(),500);
         }
 
+    }
+
+    public function deletedFiles($files)
+    {
+        foreach($files as $file){
+            if(Storage::exists($file))
+            {
+                Storage::delete($file);
+            }
+        }
     }
 
 }
