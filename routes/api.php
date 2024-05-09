@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\StudentController;
 use App\Http\Controllers\Api\Auth\TeacherController;
 use App\Http\Controllers\Api\Auth\UserController;
 use App\Http\Controllers\Api\Category\CategoryController;
+use App\Http\Controllers\Api\Notification\NotificationStudentController;
 use App\Http\Controllers\Api\Student\StudentController as StudentStudentController;
 use App\Http\Controllers\Api\Subject\SubjectController;
 use App\Http\Controllers\Api\Task\CommentController;
@@ -98,3 +99,8 @@ Route::post('subjects/term',[SubjectController::class,'subjectsByTerm'])
 
 Route::post('categories/all',[CategoryController::class,'showByYear'])
         ->middleware(['auth:sanctum']);
+
+
+
+Route::get('notifications',[NotificationStudentController::class,'allNotifications'])
+        ->middleware(['auth:sanctum','type:student']);

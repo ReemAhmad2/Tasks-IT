@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Task;
 
+use App\Events\NewTaskEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResource;
 use App\Http\Resources\TaskStatusResource;
@@ -63,6 +64,8 @@ class TaskController extends Controller
             $task->save();
             $task->categories()->attach($ids);
 
+            NewTaskEvent::dispatch($task);
+
             return $this->apiResponse("Successfully Add Task");
 
             }catch(\Exception $e){
@@ -89,7 +92,7 @@ class TaskController extends Controller
         }
 
         $user = Auth::user();
-        
+
         if($user->type == 'admin')
         {
             $task->delete();
