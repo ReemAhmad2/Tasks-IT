@@ -42,9 +42,9 @@ class NewTaskNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('New Task')
+                    ->from('itask875@gmail.com','Task IT')
+                    ->view('Email.notification',['task' => $this->task]);
     }
 
     /**
@@ -65,6 +65,7 @@ class NewTaskNotification extends Notification
         return [
             'subject' => $this->task->subject->name,
             'body' => 'new task',
+            'task_uuid' => $this->task->uuid,
         ];
     }
 }

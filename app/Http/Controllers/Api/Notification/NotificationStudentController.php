@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Api\Notification;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Http\Traits\GeneralTrait;
 
 class NotificationStudentController extends Controller
 {
+
+    use GeneralTrait;
+
     public function allNotifications()
     {
         $user = Auth::user();
-        return NotificationResource::collection($user->notifications);
+        $notifications = NotificationResource::collection($user->notifications);
+        return $this->apiResponse($notifications);
     }
 
     // public function readed()
