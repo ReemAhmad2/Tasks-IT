@@ -94,8 +94,9 @@ Route::get('all/subjects',[SubjectController::class,'index'])
 Route::post('subject/task',[SubjectController::class,'allTaskBySubject'])
         ->middleware(['auth:sanctum','type:admin,student']);
 Route::post('subjects/term',[SubjectController::class,'subjectsByTerm'])
-        ->middleware(['auth:sanctum','type:admin']);
-
+        ->middleware(['auth:sanctum','type:admin,teacher']);
+Route::get('all/subjects/have-task',[SubjectController::class,'subjectsStudent'])
+        ->middleware(['auth:sanctum']);
 
 Route::post('categories/all',[CategoryController::class,'showByYear'])
         ->middleware(['auth:sanctum']);

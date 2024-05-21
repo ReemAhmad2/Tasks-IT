@@ -32,7 +32,7 @@ class Task extends Model
         'category.*' => 'required|string|exists:categories,uuid',
         ];
     }
-    
+
     public function getDurationAttribute()
     {
         $createdAt = Carbon::parse($this->created_at);
@@ -51,7 +51,7 @@ class Task extends Model
                 return 'Submitted';
             }
         }
-        return 'Not Submitted';
+        return 'Not_Submitted';
     }
 
     public function teacher()

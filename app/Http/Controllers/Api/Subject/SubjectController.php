@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Subject;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SubjectAndTasksResource;
 use App\Http\Resources\SubjectResource;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
@@ -51,6 +52,14 @@ class SubjectController extends Controller
         $data = TaskResource::collection($tasks);
         return $this->apiResponse($data);
 
+    }
+
+    public function subjectsStudent(Request $request)
+    {
+        $user = $request->user();
+        $tasks = $user->student->category->tasks ;
+        $subjects = $tasks->pluck('subject')->unique();
+        return SubjectAndTasksResource::collection($subjects);
     }
 
 }
