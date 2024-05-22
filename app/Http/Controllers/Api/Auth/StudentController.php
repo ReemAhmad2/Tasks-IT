@@ -16,6 +16,7 @@ use App\Models\Student;
 use App\Models\StudentIt;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
@@ -135,6 +136,44 @@ class StudentController extends Controller
         {
             return $this->apiResponse(null, false,$e->getMessage(), 500);
         }
+    }
+
+    public function editProfile(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'name'=>'required|string',
+            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($request->user()->id)],
+            'year'=>'required|integer|min:1|max:5',
+            'category'=>'required|integer|min:1'
+        ]);
+
+
+        if ($validator->fails()) {
+            return $this->apiResponse(null, false, $validator->errors(), 422);
+        }
+
+        $year = $request->year;
+        $category = $request->category;
+
+        $st_category = Category::where('year', $year)
+            ->where('number',$category)
+            ->first();
+        if($st_category == null)
+        {
+            return $this->apiResponse(null,false,'Enter Year Or Category True PLZ',500);
+        }
+
+        $data = $request->all();
+
+        $data['category_id']= $st_category->id ;
+
+        $user = $request->user();
+        $student = $user->student;
+
+        $user->update($request->all());
+        $student->update($data);
+
+        return $this->apiResponse('success update profile');
     }
 
 }

@@ -81,6 +81,8 @@ Route::post('search/tasks',[TaskController::class,'searchTask'])
 
 Route::post('profile/student',[StudentController::class,'profile'])
         ->middleware(['auth:sanctum','type:student']);
+Route::post('profile/edit/student',[StudentController::class,'editProfile'])
+        ->middleware(['auth:sanctum','type:student']);
 Route::get('all/students',[StudentController::class,'allStudents'])
         ->middleware(['auth:sanctum','type:admin']);
 Route::post('all/students-by-year',[StudentController::class,'studentsByYear'])
