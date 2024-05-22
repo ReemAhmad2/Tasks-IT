@@ -35,6 +35,8 @@ Route::post('/register/student',[StudentController::class,'register'])
         ->middleware('guest:sanctum');
 Route::post('/register/teacher',[TeacherController::class,'register'])
         ->middleware(['auth:sanctum','type:admin']);
+Route::post('/delete/teacher',[TeacherController::class,'delete'])
+        ->middleware(['auth:sanctum','type:admin']);
 Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctum');
 
 

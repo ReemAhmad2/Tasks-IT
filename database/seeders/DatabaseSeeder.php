@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(40)->create();
 
-         \App\Models\Subject::factory(40)->create();
+        //  \App\Models\Subject::factory(40)->create();
 
 
         // \App\Models\User::factory()->create([
@@ -29,17 +29,5 @@ class DatabaseSeeder extends Seeder
         //     'type' => 'admin',
         // ]);
 
-
-        // for($i=1 ; $i<=5 ; $i++)
-        // {
-        //     for($j=1 ; $j<=8 ; $j++)
-        //     {
-        //         \App\Models\Category::create([
-        //                 'uuid' => Str::uuid(),
-        //                 'year' => $i,
-        //                 'number' => $j,
-        //             ]);
-        //     }
-        // }
     }
 }

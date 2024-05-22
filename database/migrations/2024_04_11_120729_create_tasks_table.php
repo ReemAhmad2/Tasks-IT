@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->foreignId('teacher_id')->constrained('teachers')->restrictOnDelete();
+            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->text('description');
             $table->date('deadline');
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();

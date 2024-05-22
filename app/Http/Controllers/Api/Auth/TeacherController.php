@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Traits\GeneralTrait;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,5 +55,26 @@ class TeacherController extends Controller
     {
         $users = User::where('type','teacher')->get();
         return $this->apiResponse(TeacherResource::collection($users));
+    }
+
+    public function delete(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'uuid' => ['required','string','exists:teachers,uuid']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->apiResponse(null, false, $validator->errors(), 422);
+        }
+
+        try {
+            $teacher =Teacher::whereUuid($request->uuid)->firstOrFail();
+            $teacher->delete();
+            return $this->apiResponse('deleted teacher successfully');
+
+        }catch(\Exception $e)
+        {
+            return $this->apiResponse(null, false,$e->getMessage(), 500);
+        }
     }
 }

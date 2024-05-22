@@ -17,6 +17,7 @@ class TeacherResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
+            'uuid' => $this->teacher->uuid,
             'count_tasks' => $this->teacher->count_tasks,
         ];
     }

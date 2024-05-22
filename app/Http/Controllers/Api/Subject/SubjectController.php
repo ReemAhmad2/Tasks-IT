@@ -59,7 +59,7 @@ class SubjectController extends Controller
         $user = $request->user();
         $tasks = $user->student->category->tasks ;
         $subjects = $tasks->pluck('subject')->unique();
-        return SubjectAndTasksResource::collection($subjects);
+        return  $this->apiResponse(SubjectAndTasksResource::collection($subjects));
     }
 
 }
