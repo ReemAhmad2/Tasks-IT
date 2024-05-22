@@ -69,7 +69,9 @@ class TeacherController extends Controller
 
         try {
             $teacher =Teacher::whereUuid($request->uuid)->firstOrFail();
+            $user = $teacher->user;
             $teacher->delete();
+            $user->delete();
             return $this->apiResponse('deleted teacher successfully');
 
         }catch(\Exception $e)

@@ -17,6 +17,7 @@ class StudentsByYearResource extends JsonResource
         return [
             'name' => $this->user->name,
             'email' => $this->user->email,
+            'uuid' => $this->uuid,
             'number_university' => $this->number_of_student,
             'year' => $this->category->year,
             'category'=> $this->category->number,

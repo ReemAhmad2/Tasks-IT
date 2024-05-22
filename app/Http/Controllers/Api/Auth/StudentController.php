@@ -114,6 +114,29 @@ class StudentController extends Controller
         }
     }
 
+    public function delete(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'uuid' => ['required','string','exists:students,uuid']
+        ]);
+
+        if ($validator->fails()) {
+            return $this->apiResponse(null, false, $validator->errors(), 422);
+        }
+
+        try {
+            $student =Student::whereUuid($request->uuid)->firstOrFail();
+            $user = $student->user;
+            $student->delete();
+            $user->delete();
+            return $this->apiResponse('deleted student successfully');
+
+        }catch(\Exception $e)
+        {
+            return $this->apiResponse(null, false,$e->getMessage(), 500);
+        }
+    }
+
 }
 
 
