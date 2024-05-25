@@ -106,6 +106,8 @@ Route::get('all/subjects/have-task',[SubjectController::class,'subjectsStudent']
 
 Route::post('categories/all',[CategoryController::class,'showByYear'])
         ->middleware(['auth:sanctum']);
+Route::post('add/categories',[CategoryController::class,'add'])
+        ->middleware(['auth:sanctum','type:admin']);
 
 
 

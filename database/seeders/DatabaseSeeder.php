@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
         //  \App\Models\Subject::factory(40)->create();
 
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Admin',
-        //     'email' => 'admin@gmail.com',
-        //     'uuid' => Str::uuid(),
-        //     'password' => Hash::make('admin1110'),
-        //     'type' => 'admin',
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'uuid' => Str::uuid(),
+            'password' => Hash::make('admin1110'),
+            'type' => 'admin',
+        ]);
 
     }
 }
