@@ -73,7 +73,7 @@ class StudentController extends Controller
                 ]);
             });
                 $token = $user->createToken('auth_token')->plainTextToken;
-                return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer'],true,null,201);
+                return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer' , 'type' =>'student' ],true,null,201);
 
         }catch(\Exception $e){
             return $this->apiResponse(null,false,$e->getMessage(),500);

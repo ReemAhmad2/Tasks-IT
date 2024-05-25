@@ -33,7 +33,7 @@ class UserController extends Controller
             if($user && Hash::check($request->password, $user->password))
             {
                 $token = $user->createToken('web')->plainTextToken;
-                return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer']);
+                return $this->apiResponse(['access_token' => $token, 'token_type' => 'Bearer' , 'type' => $user->type ]);
             }
             else
             {
