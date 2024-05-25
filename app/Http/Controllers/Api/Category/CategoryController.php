@@ -54,7 +54,7 @@ class CategoryController extends Controller
             $year = $request->year;
             $number = $request->number;
 
-            DB::transaction(function () use ($year,$number) {
+            DB::transaction(function () use ($year, $number) {
                 for ($i = 1; $i <= $number; $i++) {
                     $data = [
                         'year' => $year,
@@ -62,15 +62,49 @@ class CategoryController extends Controller
                         'uuid' => Str::uuid()
                     ];
 
-                    $unique = Category::where('year',$year)->where('number',$i)->first();
+                    $unique = Category::where('year', $year)->where('number', $i)->first();
 
-                    if($unique == null){
+                    if ($unique == null) {
                         $category = Category::create($data);
                     }
                 }
             });
 
             return $this->apiResponse('success add category');
+        } catch (\Exception $e) {
+            return $this->apiResponse(null, false, $e->getMessage(), 500);
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            Category::query()->delete();
+            return $this->apiResponse('Success delete all categories');
+        } catch (\Exception $e) {
+            return $this->apiResponse(null, false, $e->getMessage(), 500);
+        }
+    }
+
+    public function deleteCategory(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'year' => ['required', 'integer', 'min:1', 'max:5'],
+            'category' => ['required', 'integer', 'min:1', 'exists:categories,number']
+        ]);
+
+        if ($validation->fails()) {
+            return $this->apiResponse(null, false, $validation->errors(), 422);
+        }
+
+        
+        try {
+
+            $category = Category::where('year', $request->year)->where('number', $request->category)->firstOrFail();
+
+            $category->delete();
+
+            return $this->apiResponse('delete category successfully');
 
         } catch (\Exception $e) {
             return $this->apiResponse(null, false, $e->getMessage(), 500);
