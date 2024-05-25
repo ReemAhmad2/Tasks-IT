@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->integer('number_of_student')->unique();
-            $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->timestamps();
         });
     }
